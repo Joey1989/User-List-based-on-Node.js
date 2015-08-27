@@ -1,0 +1,63 @@
+<!-- <div  style="background-color:gray">
+	The input parameter is {{ param }}.
+</div> -->
+<div ng-controller="createCtrl">
+  <div class="col-md-3 col-sm-3">
+    <h3 ng-show="edit">Create New User:</h3>
+    <h3 ng-hide="edit">Edit User:</h3>
+
+    <form class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-10">
+          ID:
+          <input type="text" ng-model="id"  placeholder="ID">
+        </div> 
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          First Name:
+          <input type="text" ng-model="fName"  placeholder="First Name">
+        </div> 
+      </div> 
+      <div class="form-group">
+        <div class="col-sm-10">
+          Last Name:
+          <input type="text" ng-model="lName"  placeholder="Last Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          Sex:
+          <input type="text" ng-model="Sex"  placeholder="Sex">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          Age:
+          <input type="text" ng-model="Age"  placeholder="Age">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          Password:
+          <input type="password" ng-model="passw1" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          Repeat:
+          <input type="password" ng-model="passw2" placeholder="Repeat Password">
+        </div>
+      </div>
+    </form>
+
+    <hr>
+    <button class="btn btn-warning" ng-disabled="error || incomplete" ng-click="createUser('new')">
+      <span class="glyphicon glyphicon-user"></span>  Create New User
+    </button>
+    <hr>
+   <!--  <button class="btn btn-success" ng-disabled="error || incomplete" ng-click="saveChange()">
+      <span class="glyphicon glyphicon-save"></span>  Save Changes
+    </button> -->
+  </div>
+</div>

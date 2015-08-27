@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <!-- <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" /> -->
+  <script data-require="angular.js@*" data-semver="1.3.15" src="https://code.angularjs.org/1.3.15/angular.js"></script>
+  <script data-require="ui-bootstrap@*" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
+  <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular-route.min.js"></script>
+  <script src= "myUsers3.js"></script>
+</head>
+
+<!-- <body ng-controller="userCtrl">  -->
+<body >
+  <div calss="btn-group">
+    <a href="#/route1/1111" class="btn btn-lg btn-info">full page</a>
+    <a href="#/route2/2222" class="btn btn-lg btn-warning">create</a>
+    <a href="#/route3/3333" class="btn btn-lg btn-success">Edit</a>
+    <a href="#/route4/4444" class="btn btn-lg btn-danger">List & delete</a>
+    <a href="index.html" class="btn btn-lg btn-primary">Home</a>
+  </div>
+  <!-- <a href="#/route5/5555">Create User</a><br/> -->
+
+  <div ng-view>
+    <h1>empty content</h1>
+  </div>
+
+</body>
+</html>

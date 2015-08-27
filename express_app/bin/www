@@ -1,0 +1,191 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('express_app:server');
+var http = require('http');
+var mysql = require('mysql');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+ var server = http.createServer(app).listen(3000, function() {
+  console.log('Express app started');
+  
+    var conn = mysql.createConnection({
+      host : "localhost",
+      user : "root",
+      password : "",
+      database : "for_express"
+    });
+    
+    var contacts =[];
+    var queryString = "select * from userList";
+    conn.query(queryString, function(error,results){
+      if(error){
+        throw error;
+      }
+      else{
+        console.log(results);
+        contacts = results;
+      }
+    })
+
+    function updateUsers(){ 
+      conn.query(queryString, function(error,results){
+      if(error){
+        throw error;
+      }
+      else{
+        console.log(results);
+        contacts = results;
+      }
+    })
+    }
+
+ app.get('/listUser',function(req,res){
+    console.log("clicked");
+    res.json(contacts);
+  })
+
+
+ // function getInd(Id){
+ //   for(var i=0;i<contacts.length;i++){
+ //     if(contacts[i].id==Id) return i;
+ //   }
+ //   return 0;
+ // }
+
+ function deleteUser(id){
+   // contacts.splice(getInd(id),1);
+   var queryDelete = "DELETE FROM userList WHERE id="+id;
+   console.log(queryDelete);
+   conn.query(queryDelete);
+   updateUsers();
+ }
+
+ app.get('/deleteUser/:id',function(req,res){
+    deleteUser(req.params.id);
+    console.log("server delete");
+    res.json(contacts);
+  })
+
+
+function editUser(user){
+  // contacts[getInd(user.id)]=user;
+  // contacts[getInd(user.id)].id=Number(user.id);
+  var id=Number(user.id);
+  var queryEditUser = "update userList set id="+Number(user.id)+",fName='"+user.fName+"',lName='"+user.lName+"',Sex='"+user.Sex+"',Age='"+user.Age+"' where id="+id+";";
+  console.log(queryEditUser);
+  conn.query(queryEditUser);
+  updateUsers();
+}
+
+app.get('/editUser/:edituser',function(req,res){
+  console.log("server begin");
+   var temp= JSON.parse(req.params.edituser);
+   editUser(temp,function(){res.json(contacts);});
+   console.log("server edited"+contacts.length);
+       res.json(contacts);
+  })
+
+
+function createUser(user){
+  // user.id=Number(user.id);
+  // contacts.push(user);
+  var queryCreate = "insert into userList value("+Number(user.id)+",'"+user.fName+"',"+"'"+user.lName+"',"+"'"+user.Sex+"',"+"'"+user.Age+"')";
+   console.log(queryCreate);
+   conn.query(queryCreate);
+   updateUsers();
+}
+app.get('/createUser/:edituser',function(req,res){
+  console.log("server begin");
+   var temp= JSON.parse(req.params.edituser);
+   createUser(temp,function(){res.json(contacts);});
+   
+   console.log("server created"+contacts.length);
+   res.json(contacts);
+  })
+
+
+
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+// server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
